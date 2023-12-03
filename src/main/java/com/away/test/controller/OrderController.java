@@ -29,6 +29,7 @@ public class OrderController implements ApplicationEventPublisherAware {
     @GetMapping("/{type}")
     public Mono<OrderCase> orderByType(@PathVariable Integer type) {
         OrderCase orderCase = null;
+
         if (type == 1) {
             orderCase = OrderCase.builder()
                     .type(type)
@@ -39,7 +40,6 @@ public class OrderController implements ApplicationEventPublisherAware {
                     .type(type)
                     .name("iPhone 15 Pro Max")
                     .build();
-
         }
 
         List<String> traces = new ArrayList<>();
@@ -49,6 +49,8 @@ public class OrderController implements ApplicationEventPublisherAware {
 
         // 推送事件
         publisher.publishEvent(new OrderSuccessEvent(orderCase));
+
+        System.out.println("推送事件结束");
 
         return Mono.just(orderCase);
     }
